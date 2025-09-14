@@ -56,6 +56,7 @@ npm run dev
    ```
 
 ## API Endpoints
+https://atom-be-nodejs-apd2cddzh6dzf2cx.canadacentral-01.azurewebsites.net/
 
 ### Users
 

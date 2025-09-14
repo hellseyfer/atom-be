@@ -54,7 +54,7 @@ export const env = {
   cors: {
     allowedOrigins: process.env.ALLOWED_ORIGINS ? 
       process.env.ALLOWED_ORIGINS.split(',') : 
-      (isProduction ? [] : ['http://localhost:3000', 'http://localhost:8080']),
+      (isProduction ? [] : ['http://localhost:3000', 'http://localhost:4200', 'http://localhost:8080']),
   },
 } as const;
 
