@@ -12,9 +12,8 @@ A RESTful API built with Node.js, Express, TypeScript, and Firestore for managin
 
 ## Prerequisites
 
-- Node.js (v14 or later)
+- Node.js (v22 or later)
 - npm or yarn
-- Google Cloud project with Firestore enabled
 - Service account key file from Firebase
 
 ## Setup
@@ -62,9 +61,11 @@ npm run dev
 
 - `POST /api/users` - Create a new user
   ```json
-  {
-    "email": "user@example.com"
-  }
+    {
+    "name": "Test User",
+    "email": "test2@example.com",
+    "password": "Password123!"
+    }
   ```
 
 - `GET /api/users/:email` - Get user by email
@@ -74,8 +75,8 @@ npm run dev
 - `POST /api/users/:userId/tasks` - Create a new task for a user
   ```json
   {
-    "title": "Task title",
-    "description": "Task description"
+    "title": "Test User task",
+    "description": "this is a description"
   }
   ```
 
@@ -95,14 +96,38 @@ npm run dev
 
 ```
 src/
-├── config/           # Configuration files
-├── controllers/      # Request handlers
-├── interfaces/       # TypeScript interfaces
-├── middleware/       # Express middleware
-├── routes/          # Route definitions
-├── services/        # Business logic
-├── app.ts           # Express application
-└── server.ts        # Server entry point
+├── config/                 # Configuration files
+│   ├── env.ts             # Environment configuration
+│   └── firebase.config.ts  # Firebase configuration
+│
+├── features/               # Feature modules
+│   ├── tasks/             # Task-related functionality
+│   │   ├── controllers/   # Task controllers
+│   │   ├── interfaces/    # Task interfaces
+│   │   ├── services/      # Task business logic
+│   │   └── validations/   # Task validation schemas
+│   │
+│   └── users/             # User-related functionality
+│       ├── controllers/   # User controllers
+│       ├── interfaces/    # User interfaces
+│       ├── services/      # User business logic
+│       └── validations/   # User validation schemas
+│
+├── middleware/             # Express middleware
+│   ├── auth.middleware.ts  # Authentication middleware
+│   ├── error.middleware.ts # Error handling middleware
+│   └── validation.middleware.ts # Request validation
+│
+├── routes/                # Route definitions
+│   ├── index.ts          # Main router
+│   ├── task.routes.ts    # Task routes
+│   └── user.routes.ts    # User routes
+│
+├── types/                 # Global type definitions
+│   └── express/          # Express type extensions
+│
+├── app.ts                # Express application setup
+└── server.ts             # Server entry point
 ```
 
 ## Testing
