@@ -112,7 +112,9 @@ class UserService {
     const user = await this.findUserByEmail(email);
     
     if (!user) {
-      throw new Error('Invalid credentials');
+      const error = new Error('User not found') as any;
+      error.statusCode = 404;
+      throw error;
     }
     
     const isMatch = await user.comparePassword?.(password);

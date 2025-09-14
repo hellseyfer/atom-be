@@ -20,12 +20,12 @@ router.post('/tasks', ...createTask);
 router.get('/tasks', ...getUserTasks);
 
 // Get a specific task for the authenticated user
-router.get('/tasks/:taskId', ...getTask);
+router.get('/tasks/:id', ...getTask);
 
 // Update a task for the authenticated user
-router.patch('/tasks/:taskId', ...updateTask);
+router.patch('/tasks/:id', ...updateTask);
 
 // Delete a task for the authenticated user
-router.delete('/tasks/:taskId', ...deleteTask);
+router.delete('/tasks/:id', ...deleteTask);
 
 export const taskRouter = router;

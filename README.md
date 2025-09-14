@@ -27,6 +27,7 @@ A RESTful API built with Node.js, Express, TypeScript, and Firestore for managin
    ```
    PORT=3000
    NODE_ENV=development
+   JWT_SECRET=super-strong-random-string-here
    ```
 
 4. Set up Firestore:
@@ -63,17 +64,38 @@ https://atom-be-nodejs-apd2cddzh6dzf2cx.canadacentral-01.azurewebsites.net/
 - `POST /api/users` - Create a new user
   ```json
     {
-    "name": "Test User",
     "email": "test2@example.com",
     "password": "Password123!"
     }
   ```
 
 - `GET /api/users/:email` - Get user by email
+- `POST /api/auth/login` - Login user and get token
+  ```json
+  {
+    "email": "test@example.com",
+    "password": "Password123!"
+  }
 
+  
+  **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "user": {
+        "id": "JpVDMQhk28ZAEXdlcQ2F",
+        "email": "test@example.com",
+        "createdAt": "2025-09-13T23:53:33.230Z",
+        "updatedAt": "2025-09-13T23:53:33.230Z"
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+  ```
 ### Tasks
 
-- `POST /api/users/:userId/tasks` - Create a new task for a user
+- `POST /api/tasks` - Create a new task for a user
   ```json
   {
     "title": "Test User task",
@@ -81,9 +103,9 @@ https://atom-be-nodejs-apd2cddzh6dzf2cx.canadacentral-01.azurewebsites.net/
   }
   ```
 
-- `GET /api/users/:userId/tasks` - Get all tasks for a user
-- `GET /api/users/:userId/tasks/:id` - Get a specific task
-- `PATCH /api/users/:userId/tasks/:id` - Update a task
+- `GET /api/tasks` - Get all tasks for a user
+- `GET /api/tasks/:id` - Get a specific task
+- `PATCH /api/tasks/:id` - Update a task
   ```json
   {
     "title": "Updated title",
@@ -91,7 +113,7 @@ https://atom-be-nodejs-apd2cddzh6dzf2cx.canadacentral-01.azurewebsites.net/
     "completed": true
   }
   ```
-- `DELETE /api/users/:userId/tasks/:id` - Delete a task
+- `DELETE /api/tasks/:id` - Delete a task
 
 ## Project Structure
 

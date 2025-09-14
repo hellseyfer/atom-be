@@ -22,16 +22,18 @@ export const updateTaskSchema = z.object({
     message: 'At least one field must be provided',
   }),
   params: z.object({
-    userId: z.string().min(1, 'User ID is required'),
     id: z.string().min(1, 'Task ID is required'),
   }),
 });
 
 export const getTaskSchema = z.object({
   params: z.object({
-    userId: z.string().min(1, 'User ID is required'),
     id: z.string().min(1, 'Task ID is required'),
   }),
 });
 
-export const deleteTaskSchema = getTaskSchema;
+export const deleteTaskSchema = z.object({
+  params: z.object({
+    id: z.string().min(1, 'Task ID is required'),
+  }),
+});
