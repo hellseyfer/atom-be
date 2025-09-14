@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { z } from 'zod';
+import { Request } from 'express-serve-static-core';
 
 interface ZodError {
   errors: Array<{
@@ -11,14 +12,14 @@ interface ZodError {
 }
 
 export const validate = (schema: z.ZodSchema) => 
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request, res: Response, next: NextFunction): void | Response => {
     try {
       schema.parse({
         body: req.body,
         query: req.query,
         params: req.params,
       });
-      next();
+      return next();
     } catch (error: unknown) {
       if (error instanceof Error && 'errors' in error) {
         const zodError = error as unknown as ZodError;
@@ -31,6 +32,6 @@ export const validate = (schema: z.ZodSchema) =>
           })),
         });
       }
-      next(error);
+      return next(error);
     }
   };

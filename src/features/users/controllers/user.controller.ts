@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { Response, NextFunction } from 'express';
+import { Request } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
 import { userService } from '../services/user.service';
 import { 
@@ -17,7 +18,7 @@ import { env } from '../../../config/env';
  */
 export const register = [
   validate(registerUserSchema),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
       const { email, password } = req.body;
       const user = await userService.createUser(email, password);
@@ -43,12 +44,13 @@ export const register = [
           token 
         }
       });
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as any;
       if (error.code === 11000) {
         error.statusCode = 409;
         error.message = 'Email already in use';
       }
-      throw error;
+      return next(error);
     }
   }
 ];
@@ -60,7 +62,7 @@ export const register = [
  */
 export const login = [
   validate(loginUserSchema),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
       const { email, password } = req.body;
       const { user, token } = await userService.loginUser(email, password);
@@ -72,10 +74,11 @@ export const login = [
           token 
         }
       });
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as any;
       error.statusCode = error.statusCode || 401;
       error.message = error.message || 'Invalid credentials';
-      throw error;
+      return next(error);
     }
   }
 ];
@@ -87,7 +90,7 @@ export const login = [
  */
 export const getUser = [
   validate(getUserSchema),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
       const { email } = req.params;
       const user = await userService.findUserByEmail(email);
@@ -95,15 +98,15 @@ export const getUser = [
       if (!user) {
         const error = new Error('User not found') as any;
         error.statusCode = 404;
-        throw error;
+        return next(error);
       }
       
       res.json({
         status: 'success',
         data: { user }
       });
-    } catch (error: any) {
-      throw error;
+    } catch (err: unknown) {
+      return next(err);
     }
   }
 ];
@@ -115,7 +118,7 @@ export const getUser = [
  */
 export const getMe = [
   // Add auth middleware here
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!req.user) {
         return res.status(401).json({
@@ -140,8 +143,8 @@ export const getMe = [
         status: 'success',
         data: { user: userWithoutPassword }
       });
-    } catch (error: any) {
-      throw error;
+    } catch (err: unknown) {
+      return next(err);
     }
   }
 ];

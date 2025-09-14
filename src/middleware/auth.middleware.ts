@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { Request } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
 import { userService } from '../features/users/services/user.service';
 import { env } from '../config/env';
@@ -10,7 +11,7 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void | Response> => {
   try {
     // Get token from header
     const authHeader = req.headers.authorization;
@@ -41,9 +42,12 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
       id: user.id,
       email: user.email
     };
-    next();
+    return next();
   } catch (error) {
     console.error('Authentication error:', error);
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ 
+      status: 'fail',
+      message: 'Invalid or expired token' 
+    });
   }
 };

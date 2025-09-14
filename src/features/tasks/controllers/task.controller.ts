@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Response, NextFunction } from 'express';
 import { taskService } from '../services/task.service';
 import { 
   createTaskSchema, 
@@ -16,7 +16,7 @@ import { AuthRequest } from '../../../middleware/auth.middleware';
  */
 export const createTask = [
   validate(createTaskSchema),
-  async (req: AuthRequest, res: Response) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { title, description } = req.body;
       if (!req.user) {
@@ -38,7 +38,8 @@ export const createTask = [
         data: { task }
       });
     } catch (error) {
-      throw error;
+      // This error will be caught by the error handling middleware
+      return next(error);
     }
   }
 ];
@@ -49,7 +50,7 @@ export const createTask = [
  * @access Private
  */
 export const getUserTasks = [
-  async (req: AuthRequest, res: Response) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.user) {
         return res.status(401).json({ 
@@ -66,7 +67,8 @@ export const getUserTasks = [
         data: { tasks }
       });
     } catch (error) {
-      throw error;
+      // This error will be caught by the error handling middleware
+      return next(error);
     }
   }
 ];
@@ -78,7 +80,7 @@ export const getUserTasks = [
  */
 export const getTask = [
   validate(getTaskSchema),
-  async (req: AuthRequest, res: Response) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.user) {
         return res.status(401).json({ 
@@ -112,7 +114,8 @@ export const getTask = [
         data: { task }
       });
     } catch (error) {
-      throw error;
+      // This error will be caught by the error handling middleware
+      return next(error);
     }
   }
 ];
@@ -124,7 +127,7 @@ export const getTask = [
  */
 export const updateTask = [
   validate(updateTaskSchema),
-  async (req: AuthRequest, res: Response) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.user) {
         return res.status(401).json({ 
@@ -161,7 +164,8 @@ export const updateTask = [
         data: { task }
       });
     } catch (error) {
-      throw error;
+      // This error will be caught by the error handling middleware
+      return next(error);
     }
   }
 ];
@@ -175,7 +179,7 @@ export const updateTask = [
  */
 export const deleteTask = [
   validate(deleteTaskSchema),
-  async (req: AuthRequest, res: Response) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.user) {
         return res.status(401).json({ 
@@ -192,12 +196,14 @@ export const deleteTask = [
       if (!success) {
         const error = new Error('Task not found') as any;
         error.statusCode = 404;
-        throw error;
+        // This error will be caught by the error handling middleware
+      return next(error);
       }
       
       res.status(204).send();
     } catch (error: any) {
-      throw error;
+      // This error will be caught by the error handling middleware
+      return next(error);
     }
   }
 ];
