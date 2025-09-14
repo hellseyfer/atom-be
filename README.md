@@ -33,8 +33,9 @@ A RESTful API built with Node.js, Express, TypeScript, and Firestore for managin
 4. Set up Firestore:
    - Go to the [Firebase Console](https://console.firebase.google.com/)
    - Create a new project or select an existing one
-   - Go to Project Settings > Service Accounts
-   - Click "Generate New Private Key" and save it as `serviceAccountKey.json` in the project root
+   - Go to Project Settings > Your Apps
+   - Click on Add app
+   - Copy and paste the configuration object into `firebase.config.ts`
 
 ## Running the Application
 
