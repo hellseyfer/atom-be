@@ -1,0 +1,86 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*.local
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Service account keys
+*.json
+!package.json
+!package-lock.json
+!tsconfig*.json
+!eslint*.json
+!prettier*.json
+
+# Build output
+dist/
+
+# Logs
+logs
+*.log
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+.dockerignore
+Dockerfile
+.docker
+
+# Build and deployment
+build/
+.cache/
+.coverage
+.nyc_output
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp*
+.pnp.js
+
+# Local development
+.vercel
+.next
+out/
+
+# Production
+build
+.next/
+.nuxt/
+.cache/
+.temp/
+.tmp/
