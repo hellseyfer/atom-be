@@ -14,7 +14,7 @@ A RESTful API built with Node.js, Express, TypeScript, and Firestore for managin
 
 - Node.js (v22 or later)
 - npm or yarn
-- Service account key file from Firebase
+- firebase Configs
 
 ## Setup
 
